@@ -7,6 +7,12 @@ services:
     volumes:
       - ./config:/config
       - ccm-data:/home/ccm/.claude-code-mux
+    env_file:
+      - .env
+    environment:
+      - ZAI_API_KEY=${ZAI_API_KEY}
+      - MINIMAX_API_KEY=${MINIMAX_API_KEY}
+      - KIMI_API_KEY=${KIMI_API_KEY}
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:13456/api/config/json"]
