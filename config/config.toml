@@ -11,22 +11,186 @@ api_timeout_ms = 600000
 connect_timeout_ms = 10000
 
 [router]
-default = "example-model"
-think = "example-model"
-websearch = "example-model"
-background = "example-model"
+default = "claude-sonnet-4.5"
+think = "claude-opus-4.1"
+websearch = "gpt-5.1"
+background = "glm-4.5-air"
+
+# ===== Providers =====
 
 [[providers]]
-name = "example-provider"
-provider_type = "openrouter"
+name = "claude-max-main"
+provider_type = "anthropic"
+auth_type = "oauth"
+oauth_provider = "anthropic-max"
 enabled = true
-api_key = "your-api-key-here"
 models = []
 
+[[providers]]
+name = "openai-codex"
+provider_type = "openai"
+auth_type = "oauth"
+oauth_provider = "openai-codex"
+enabled = true
+models = []
+
+[[providers]]
+name = "gemini-oauth"
+provider_type = "gemini"
+auth_type = "oauth"
+oauth_provider = "gemini"
+enabled = true
+models = []
+
+[[providers]]
+name = "zai-coding-plan"
+provider_type = "z.ai"
+api_key = "$ZAI_API_KEY"
+enabled = true
+models = []
+
+[[providers]]
+name = "minimax"
+provider_type = "minimax"
+api_key = "$MINIMAX_API_KEY"
+enabled = true
+models = []
+
+[[providers]]
+name = "kimi-coding"
+provider_type = "kimi-coding"
+api_key = "$KIMI_API_KEY"
+enabled = true
+models = []
+
+# ===== Anthropic Models =====
+
 [[models]]
-name = "example-model"
+name = "claude-opus-4.1"
 
 [[models.mappings]]
-provider = "example-provider"
-actual_model = "openai/gpt-4"
+actual_model = "claude-opus-4-1-20250805"
 priority = 1
+provider = "claude-max-main"
+
+[[models]]
+name = "claude-sonnet-4.5"
+
+[[models.mappings]]
+actual_model = "claude-sonnet-4-5-20250929"
+priority = 1
+provider = "claude-max-main"
+
+[[models]]
+name = "claude-haiku-4.5"
+
+[[models.mappings]]
+actual_model = "claude-haiku-4-5-20250929"
+priority = 1
+provider = "claude-max-main"
+
+[[models]]
+name = "claude-sonnet-3.7"
+
+[[models.mappings]]
+actual_model = "claude-3-7-sonnet-20250219"
+priority = 1
+provider = "claude-max-main"
+
+# ===== OpenAI Models =====
+
+[[models]]
+name = "gpt-5.1"
+
+[[models.mappings]]
+actual_model = "gpt-5.1"
+priority = 1
+provider = "openai-codex"
+
+[[models]]
+name = "gpt-5.1-chat-latest"
+
+[[models.mappings]]
+actual_model = "gpt-5.1-chat-latest"
+priority = 1
+provider = "openai-codex"
+
+[[models]]
+name = "gpt-5.1-codex-mini"
+
+[[models.mappings]]
+actual_model = "gpt-5.1-codex-mini"
+priority = 1
+provider = "openai-codex"
+
+# ===== Google Gemini Models =====
+
+[[models]]
+name = "gemini-2.5-pro"
+
+[[models.mappings]]
+actual_model = "gemini-2.5-pro"
+priority = 1
+provider = "gemini-oauth"
+
+[[models]]
+name = "gemini-2.5-flash"
+
+[[models.mappings]]
+actual_model = "gemini-2.5-flash"
+priority = 1
+provider = "gemini-oauth"
+
+[[models]]
+name = "gemini-3-pro-preview"
+
+[[models.mappings]]
+actual_model = "gemini-3-pro-preview"
+priority = 1
+provider = "gemini-oauth"
+
+# ===== ZhipuAI/GLM Models (via Z.AI) =====
+
+[[models]]
+name = "glm-4.6"
+
+[[models.mappings]]
+actual_model = "glm-4.6"
+priority = 1
+provider = "zai-coding-plan"
+
+[[models]]
+name = "glm-4.5-air"
+
+[[models.mappings]]
+actual_model = "glm-4.5-air"
+priority = 1
+provider = "zai-coding-plan"
+
+[[models]]
+name = "glm-4.5v"
+
+[[models.mappings]]
+actual_model = "glm-4.5v"
+priority = 1
+provider = "zai-coding-plan"
+
+# ===== Minimax Models =====
+
+[[models]]
+name = "minimax-m2"
+
+[[models.mappings]]
+actual_model = "MiniMax-M2"
+priority = 1
+provider = "minimax"
+
+# ===== Kimi/Moonshot Models =====
+
+[[models]]
+name = "kimi-k2-thinking"
+
+[[models.mappings]]
+actual_model = "kimi-k2-thinking"
+priority = 1
+provider = "kimi-coding"
