@@ -103,7 +103,7 @@ KIMI_API_KEY=your-kimi-api-key-here
 Edit `./config/config.toml` on your host machine. The default config includes:
 
 - **6 Providers**: Anthropic (OAuth), OpenAI (OAuth), Gemini (OAuth), Z.AI (API key), Minimax (API key), Kimi (API key)
-- **27 Models**: Claude Opus/Sonnet/Haiku, GPT-5.1 variants (12 models), Gemini models (6 models), GLM models, MiniMax M2, Kimi K2
+- **18 Models**: Claude Opus/Sonnet/Haiku, GPT-5.1 variants (4 models), Gemini models (6 models), GLM models, MiniMax M2, Kimi K2
 - **Smart Routing**: Automatically routes to best model based on task type
 - **Multi-Tier Fallback**: Gemini models cascade through multiple tiers before GLM fallback
 
@@ -170,14 +170,6 @@ The default configuration includes the following models:
 - **gpt-5.1-chat-latest** - Chat-optimized variant
 - **gpt-5.1-codex** - Full coding model
 - **gpt-5.1-codex-mini** - Lightweight coding model
-- **gpt-5.1-low** - Low reasoning effort
-- **gpt-5.1-medium** - Medium reasoning effort
-- **gpt-5.1-high** - High reasoning effort
-- **gpt-5.1-codex-low** - Codex with low reasoning
-- **gpt-5.1-codex-medium** - Codex with medium reasoning
-- **gpt-5.1-codex-high** - Codex with high reasoning
-- **gpt-5.1-codex-mini-medium** - Mini codex with medium reasoning
-- **gpt-5.1-codex-mini-high** - Mini codex with high reasoning
 
 ### Google Gemini Models (OAuth, multi-tier fallback)
 - **gemini-3-pro-preview** - Preview of Gemini 3 (fallback: 2.5-pro → 2.5-flash → 2.0-flash → GLM)
