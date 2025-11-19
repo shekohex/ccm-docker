@@ -6,10 +6,7 @@ services:
       - "13456:13456"
     volumes:
       - ./config:/config
-      - ccm-data:/data
-    environment:
-      - CCM_CONFIG_DIR=/config
-      - CCM_DATA_DIR=/data
+      - ccm-data:/home/ccm/.claude-code-mux
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:13456/api/config/json"]

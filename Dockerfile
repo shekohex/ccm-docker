@@ -10,14 +10,11 @@ RUN apk add --no-cache curl ca-certificates && \
 
 RUN addgroup -g 1000 ccm && \
     adduser -D -u 1000 -G ccm ccm && \
-    mkdir -p /config /data && \
-    chown -R ccm:ccm /config /data
+    mkdir -p /config /home/ccm/.claude-code-mux && \
+    chown -R ccm:ccm /config /home/ccm/.claude-code-mux
 
 USER ccm
 WORKDIR /app
-
-ENV CCM_CONFIG_DIR=/config
-ENV CCM_DATA_DIR=/data
 
 EXPOSE 13456
 

@@ -32,13 +32,13 @@ Access the admin UI at: http://localhost:13456
 
 ### Volume Structure
 
-- **`./config`** → `/config` in container
+- **`./config`** → `/config` in container (bind mount)
   - `config.toml` - Main configuration file
 
-- **`ccm-data`** → `/data` in container (named volume)
+- **`ccm-data`** → `/home/ccm/.claude-code-mux` in container (named volume)
   - `oauth_tokens.json` - OAuth authentication tokens
-  - `ccm.log` - Application logs
   - `ccm.pid` - Process ID file
+  - Logs are sent to stdout/stderr (view with `docker compose logs`)
 
 ### Editing Configuration
 
@@ -191,10 +191,9 @@ docker compose build --no-cache
 docker compose exec ccm sh
 ```
 
-## Environment Variables
+## Data Persistence
 
-- `CCM_CONFIG_DIR` - Config directory (default: `/config`)
-- `CCM_DATA_DIR` - Data directory (default: `/data`)
+All runtime data (OAuth tokens, PID files) is stored in the `ccm-data` named volume, mounted at `/home/ccm/.claude-code-mux` inside the container. This ensures data persists across container restarts.
 
 ## Using with Claude Code
 
@@ -256,8 +255,8 @@ Then set `ANTHROPIC_BASE_URL=http://localhost:8080`
 
 ## Security Notes
 
-- OAuth tokens stored in `/data` volume with restricted permissions
-- Container runs as non-root user (UID 1000)
+- OAuth tokens stored in named volume `/home/ccm/.claude-code-mux` with permissions 0600
+- Container runs as non-root user `ccm` (UID 1000)
 - Only port 13456 exposed
 - Config files readable only by container user
 
