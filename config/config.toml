@@ -24,7 +24,7 @@ background = "glm-4.5-air"
 name = "claude-max-main"
 provider_type = "anthropic"
 auth_type = "oauth"
-oauth_provider = "claude-max-main-oauth"
+oauth_provider = "anthropic-max"
 enabled = true
 models = []
 
@@ -32,7 +32,7 @@ models = []
 name = "openai-codex"
 provider_type = "openai"
 auth_type = "oauth"
-oauth_provider = "openai-codex-oauth"
+oauth_provider = "openai-codex"
 enabled = true
 models = []
 
@@ -40,7 +40,7 @@ models = []
 name = "gemini-oauth"
 provider_type = "gemini"
 auth_type = "oauth"
-oauth_provider = "gemini-oauth"
+oauth_provider = "gemini"
 enabled = true
 models = []
 
