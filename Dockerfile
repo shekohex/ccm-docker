@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-ARG CCM_VERSION=v0.6.1
+ARG CCM_VERSION=v0.6.3
 ARG CCM_DOWNLOAD_URL=https://github.com/9j/claude-code-mux/releases/download/${CCM_VERSION}/ccm-linux-x86_64-musl.tar.gz
 
 RUN apk add --no-cache curl ca-certificates && \
