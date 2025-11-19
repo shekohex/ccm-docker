@@ -21,7 +21,7 @@ background = "claude-sonnet-4.5"
 # ===== Providers =====
 
 [[providers]]
-name = "claude-max-main"
+name = "anthropic-max"
 provider_type = "anthropic"
 auth_type = "oauth"
 oauth_provider = "anthropic-max"
@@ -37,7 +37,7 @@ enabled = true
 models = []
 
 [[providers]]
-name = "gemini-oauth"
+name = "gemini"
 provider_type = "gemini"
 auth_type = "oauth"
 oauth_provider = "gemini"
@@ -75,7 +75,7 @@ name = "claude-opus-4.1"
 [[models.mappings]]
 actual_model = "claude-opus-4-1-20250805"
 priority = 1
-provider = "claude-max-main"
+provider = "anthropic-max"
 
 [[models.mappings]]
 actual_model = "glm-4.6"
@@ -88,7 +88,7 @@ name = "claude-sonnet-4.5"
 [[models.mappings]]
 actual_model = "claude-sonnet-4-5-20250929"
 priority = 1
-provider = "claude-max-main"
+provider = "anthropic-max"
 
 [[models.mappings]]
 actual_model = "glm-4.6"
@@ -101,7 +101,7 @@ name = "claude-haiku-4.5"
 [[models.mappings]]
 actual_model = "claude-haiku-4-5-20250929"
 priority = 1
-provider = "claude-max-main"
+provider = "anthropic-max"
 
 [[models.mappings]]
 actual_model = "glm-4.5-air"
@@ -114,7 +114,7 @@ name = "claude-sonnet-3.7"
 [[models.mappings]]
 actual_model = "claude-3-7-sonnet-20250219"
 priority = 1
-provider = "claude-max-main"
+provider = "anthropic-max"
 
 [[models.mappings]]
 actual_model = "glm-4.6"
@@ -187,22 +187,22 @@ name = "gemini-3-pro-preview"
 [[models.mappings]]
 actual_model = "gemini-3-pro-preview"
 priority = 1
-provider = "gemini-oauth"
+provider = "gemini"
 
 [[models.mappings]]
 actual_model = "gemini-2.5-pro"
 priority = 2
-provider = "gemini-oauth"
+provider = "gemini"
 
 [[models.mappings]]
 actual_model = "gemini-2.5-flash"
 priority = 3
-provider = "gemini-oauth"
+provider = "gemini"
 
 [[models.mappings]]
 actual_model = "gemini-2.0-flash"
 priority = 4
-provider = "gemini-oauth"
+provider = "gemini"
 
 [[models.mappings]]
 actual_model = "glm-4.6"
@@ -220,7 +220,7 @@ provider = "gemini-oauth"
 [[models.mappings]]
 actual_model = "gemini-2.5-flash"
 priority = 2
-provider = "gemini-oauth"
+provider = "gemini"
 
 [[models.mappings]]
 actual_model = "gemini-2.0-flash"
@@ -238,12 +238,12 @@ name = "gemini-2.5-flash"
 [[models.mappings]]
 actual_model = "gemini-2.5-flash"
 priority = 1
-provider = "gemini-oauth"
+provider = "gemini"
 
 [[models.mappings]]
 actual_model = "gemini-2.0-flash"
 priority = 2
-provider = "gemini-oauth"
+provider = "gemini"
 
 [[models.mappings]]
 actual_model = "glm-4.5-air"
@@ -256,7 +256,7 @@ name = "gemini-2.0-flash"
 [[models.mappings]]
 actual_model = "gemini-2.0-flash"
 priority = 1
-provider = "gemini-oauth"
+provider = "gemini"
 
 [[models.mappings]]
 actual_model = "glm-4.5-air"
@@ -269,12 +269,12 @@ name = "gemini-1.5-pro"
 [[models.mappings]]
 actual_model = "gemini-1.5-pro"
 priority = 1
-provider = "gemini-oauth"
+provider = "gemini"
 
 [[models.mappings]]
 actual_model = "gemini-1.5-flash"
 priority = 2
-provider = "gemini-oauth"
+provider = "gemini"
 
 [[models.mappings]]
 actual_model = "glm-4.6"
@@ -287,7 +287,7 @@ name = "gemini-1.5-flash"
 [[models.mappings]]
 actual_model = "gemini-1.5-flash"
 priority = 1
-provider = "gemini-oauth"
+provider = "gemini"
 
 [[models.mappings]]
 actual_model = "glm-4.5-air"
