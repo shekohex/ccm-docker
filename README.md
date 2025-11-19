@@ -34,6 +34,26 @@ docker compose logs -f
 
 Access the admin UI at: http://localhost:13456
 
+### Updating to Latest Version
+
+To update to the latest claude-code-mux version (v0.6.2+):
+
+```bash
+# Pull latest changes
+git pull
+
+# Rebuild image with latest upstream version
+docker compose build --no-cache
+
+# Restart with new image
+docker compose up -d
+
+# Re-authenticate OAuth providers (required after update)
+# Visit http://localhost:13456 and authenticate again
+```
+
+**Note:** OAuth token format changed in v0.6.2. After updating, you must re-authenticate OAuth providers via the admin UI.
+
 ### First-Time Setup
 
 **The proxy works immediately with API key providers** (GLM, Minimax, Kimi). OAuth models (Claude, GPT, Gemini) require authentication:
