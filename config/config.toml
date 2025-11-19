@@ -11,6 +11,8 @@ api_timeout_ms = 600000
 connect_timeout_ms = 10000
 
 [router]
+# OAuth models with automatic fallback to API key models
+# Authenticate OAuth at http://localhost:13456 for full functionality
 default = "claude-sonnet-4.5"
 think = "claude-opus-4.1"
 websearch = "gpt-5.1"
@@ -64,6 +66,8 @@ enabled = true
 models = []
 
 # ===== Anthropic Models =====
+# Note: Requires OAuth authentication at http://localhost:13456
+# Fallback to GLM models if OAuth not configured
 
 [[models]]
 name = "claude-opus-4.1"
@@ -73,6 +77,11 @@ actual_model = "claude-opus-4-1-20250805"
 priority = 1
 provider = "claude-max-main"
 
+[[models.mappings]]
+actual_model = "glm-4.6"
+priority = 2
+provider = "zai-coding-plan"
+
 [[models]]
 name = "claude-sonnet-4.5"
 
@@ -80,6 +89,11 @@ name = "claude-sonnet-4.5"
 actual_model = "claude-sonnet-4-5-20250929"
 priority = 1
 provider = "claude-max-main"
+
+[[models.mappings]]
+actual_model = "glm-4.6"
+priority = 2
+provider = "zai-coding-plan"
 
 [[models]]
 name = "claude-haiku-4.5"
@@ -89,6 +103,11 @@ actual_model = "claude-haiku-4-5-20250929"
 priority = 1
 provider = "claude-max-main"
 
+[[models.mappings]]
+actual_model = "glm-4.5-air"
+priority = 2
+provider = "zai-coding-plan"
+
 [[models]]
 name = "claude-sonnet-3.7"
 
@@ -97,7 +116,14 @@ actual_model = "claude-3-7-sonnet-20250219"
 priority = 1
 provider = "claude-max-main"
 
+[[models.mappings]]
+actual_model = "glm-4.6"
+priority = 2
+provider = "zai-coding-plan"
+
 # ===== OpenAI Models =====
+# Note: Requires OAuth authentication at http://localhost:13456
+# Fallback to GLM models if OAuth not configured
 
 [[models]]
 name = "gpt-5.1"
@@ -107,6 +133,11 @@ actual_model = "gpt-5.1"
 priority = 1
 provider = "openai-codex"
 
+[[models.mappings]]
+actual_model = "glm-4.6"
+priority = 2
+provider = "zai-coding-plan"
+
 [[models]]
 name = "gpt-5.1-chat-latest"
 
@@ -114,6 +145,11 @@ name = "gpt-5.1-chat-latest"
 actual_model = "gpt-5.1-chat-latest"
 priority = 1
 provider = "openai-codex"
+
+[[models.mappings]]
+actual_model = "glm-4.6"
+priority = 2
+provider = "zai-coding-plan"
 
 [[models]]
 name = "gpt-5.1-codex-mini"
@@ -123,7 +159,14 @@ actual_model = "gpt-5.1-codex-mini"
 priority = 1
 provider = "openai-codex"
 
+[[models.mappings]]
+actual_model = "glm-4.5-air"
+priority = 2
+provider = "zai-coding-plan"
+
 # ===== Google Gemini Models =====
+# Note: Requires OAuth authentication at http://localhost:13456
+# Fallback to GLM models if OAuth not configured
 
 [[models]]
 name = "gemini-2.5-pro"
@@ -133,6 +176,11 @@ actual_model = "gemini-2.5-pro"
 priority = 1
 provider = "gemini-oauth"
 
+[[models.mappings]]
+actual_model = "glm-4.6"
+priority = 2
+provider = "zai-coding-plan"
+
 [[models]]
 name = "gemini-2.5-flash"
 
@@ -141,6 +189,11 @@ actual_model = "gemini-2.5-flash"
 priority = 1
 provider = "gemini-oauth"
 
+[[models.mappings]]
+actual_model = "glm-4.5-air"
+priority = 2
+provider = "zai-coding-plan"
+
 [[models]]
 name = "gemini-3-pro-preview"
 
@@ -148,6 +201,11 @@ name = "gemini-3-pro-preview"
 actual_model = "gemini-3-pro-preview"
 priority = 1
 provider = "gemini-oauth"
+
+[[models.mappings]]
+actual_model = "glm-4.6"
+priority = 2
+provider = "zai-coding-plan"
 
 # ===== ZhipuAI/GLM Models (via Z.AI) =====
 
