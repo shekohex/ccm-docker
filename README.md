@@ -103,8 +103,9 @@ KIMI_API_KEY=your-kimi-api-key-here
 Edit `./config/config.toml` on your host machine. The default config includes:
 
 - **6 Providers**: Anthropic (OAuth), OpenAI (OAuth), Gemini (OAuth), Z.AI (API key), Minimax (API key), Kimi (API key)
-- **16 Models**: Claude Opus/Sonnet/Haiku, GPT-5.1 variants, Gemini 2.5/3, GLM models, MiniMax M2, Kimi K2
+- **27 Models**: Claude Opus/Sonnet/Haiku, GPT-5.1 variants (12 models), Gemini models (6 models), GLM models, MiniMax M2, Kimi K2
 - **Smart Routing**: Automatically routes to best model based on task type
+- **Multi-Tier Fallback**: Gemini models cascade through multiple tiers before GLM fallback
 
 Restart after config changes:
 ```bash
@@ -167,12 +168,24 @@ The default configuration includes the following models:
 ### OpenAI GPT Models (OAuth, fallback: GLM)
 - **gpt-5.1** - Latest flagship model (uses `websearch` routing)
 - **gpt-5.1-chat-latest** - Chat-optimized variant
+- **gpt-5.1-codex** - Full coding model
 - **gpt-5.1-codex-mini** - Lightweight coding model
+- **gpt-5.1-low** - Low reasoning effort
+- **gpt-5.1-medium** - Medium reasoning effort
+- **gpt-5.1-high** - High reasoning effort
+- **gpt-5.1-codex-low** - Codex with low reasoning
+- **gpt-5.1-codex-medium** - Codex with medium reasoning
+- **gpt-5.1-codex-high** - Codex with high reasoning
+- **gpt-5.1-codex-mini-medium** - Mini codex with medium reasoning
+- **gpt-5.1-codex-mini-high** - Mini codex with high reasoning
 
-### Google Gemini Models (OAuth, fallback: GLM)
-- **gemini-2.5-pro** - Most capable Gemini model
-- **gemini-2.5-flash** - Fast responses
-- **gemini-3-pro-preview** - Preview of Gemini 3
+### Google Gemini Models (OAuth, multi-tier fallback)
+- **gemini-3-pro-preview** - Preview of Gemini 3 (fallback: 2.5-pro → 2.5-flash → 2.0-flash → GLM)
+- **gemini-2.5-pro** - Most capable Gemini 2.5 (fallback: 2.5-flash → 2.0-flash → GLM)
+- **gemini-2.5-flash** - Fast Gemini 2.5 (fallback: 2.0-flash → GLM)
+- **gemini-2.0-flash** - Fast Gemini 2.0 (fallback: GLM)
+- **gemini-1.5-pro** - Gemini 1.5 Pro (fallback: 1.5-flash → GLM)
+- **gemini-1.5-flash** - Fast Gemini 1.5 (fallback: GLM)
 
 ### ZhipuAI/GLM Models (API Key via Z.AI)
 - **glm-4.6** - Latest GLM model
@@ -221,8 +234,9 @@ priority = 1
 
 ### Failover Configuration
 
-All OAuth models are configured with automatic failover to GLM models:
+All OAuth models are configured with automatic failover to GLM models. Gemini models use multi-tier fallback for maximum reliability:
 
+**Simple Failover (Claude/GPT):**
 ```toml
 [[models]]
 name = "claude-sonnet-4.5"
@@ -240,7 +254,43 @@ priority = 2
 provider = "zai-coding-plan"
 ```
 
-**How it works:** The proxy tries providers in priority order. If OAuth authentication fails (priority 1), it automatically falls back to the GLM provider (priority 2).
+**Multi-Tier Failover (Gemini):**
+```toml
+[[models]]
+name = "gemini-3-pro-preview"
+
+# Priority 1: Gemini 3 Pro (OAuth)
+[[models.mappings]]
+actual_model = "gemini-3-pro-preview"
+priority = 1
+provider = "gemini-oauth"
+
+# Priority 2: Fallback to Gemini 2.5 Pro
+[[models.mappings]]
+actual_model = "gemini-2.5-pro"
+priority = 2
+provider = "gemini-oauth"
+
+# Priority 3: Fallback to Gemini 2.5 Flash
+[[models.mappings]]
+actual_model = "gemini-2.5-flash"
+priority = 3
+provider = "gemini-oauth"
+
+# Priority 4: Fallback to Gemini 2.0 Flash
+[[models.mappings]]
+actual_model = "gemini-2.0-flash"
+priority = 4
+provider = "gemini-oauth"
+
+# Priority 5: Final fallback to GLM
+[[models.mappings]]
+actual_model = "glm-4.6"
+priority = 5
+provider = "zai-coding-plan"
+```
+
+**How it works:** The proxy tries providers in priority order. Gemini models cascade through multiple model tiers within OAuth before falling back to GLM, maximizing availability.
 
 ## Docker Commands
 
