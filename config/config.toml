@@ -2,7 +2,7 @@
 # https://github.com/9j/claude-code-mux
 
 [server]
-host = "127.0.0.1"
+host = "0.0.0.0"
 port = 13456
 log_level = "info"
 
