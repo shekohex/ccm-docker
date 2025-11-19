@@ -34,6 +34,15 @@ docker compose logs -f
 
 Access the admin UI at: http://localhost:13456
 
+### First-Time Setup
+
+**The proxy works immediately with API key providers** (GLM, Minimax, Kimi). OAuth models (Claude, GPT, Gemini) require authentication:
+
+1. **Configure API keys** in `.env` (required for GLM/Minimax/Kimi)
+2. **Authenticate OAuth** at http://localhost:13456 (optional, for Claude/GPT/Gemini)
+
+**Automatic Failover**: OAuth models automatically fall back to GLM models if OAuth is not configured. Once you authenticate OAuth providers, the proxy will use them as the primary models.
+
 ### Environment Variables
 
 Create a `.env` file from the example:
@@ -127,18 +136,20 @@ OAuth setup is done entirely through the web UI - no environment variables or AP
 
 The default configuration includes the following models:
 
-### Anthropic Claude Models (OAuth)
+**Note:** OAuth models automatically fall back to GLM models if OAuth is not configured. See [Router Configuration](#router-configuration) for details.
+
+### Anthropic Claude Models (OAuth, fallback: GLM)
 - **claude-opus-4.1** - Most powerful reasoning (uses `think` routing)
 - **claude-sonnet-4.5** - Balanced performance (default routing)
 - **claude-haiku-4.5** - Fast responses
 - **claude-sonnet-3.7** - Alternative Sonnet version
 
-### OpenAI GPT Models (OAuth)
+### OpenAI GPT Models (OAuth, fallback: GLM)
 - **gpt-5.1** - Latest flagship model (uses `websearch` routing)
 - **gpt-5.1-chat-latest** - Chat-optimized variant
 - **gpt-5.1-codex-mini** - Lightweight coding model
 
-### Google Gemini Models (OAuth)
+### Google Gemini Models (OAuth, fallback: GLM)
 - **gemini-2.5-pro** - Most capable Gemini model
 - **gemini-2.5-flash** - Fast responses
 - **gemini-3-pro-preview** - Preview of Gemini 3
@@ -160,10 +171,10 @@ The router automatically selects models based on task type:
 
 ```toml
 [router]
-default = "claude-sonnet-4.5"      # General tasks
-think = "claude-opus-4.1"          # Complex reasoning
-websearch = "gpt-5.1"              # Web search tasks
-background = "glm-4.5-air"         # Fast background tasks
+default = "claude-sonnet-4.5"      # General tasks (→ glm-4.6 if OAuth not configured)
+think = "claude-opus-4.1"          # Complex reasoning (→ glm-4.6 fallback)
+websearch = "gpt-5.1"              # Web search tasks (→ glm-4.6 fallback)
+background = "glm-4.5-air"         # Fast background tasks (API key only)
 ```
 
 **Task Routing:**
@@ -171,6 +182,8 @@ background = "glm-4.5-air"         # Fast background tasks
 - **think** - Requests with extended thinking enabled
 - **websearch** - Requests using web search tools
 - **background** - Fast, simple tasks (configurable via regex)
+
+**Automatic Failover**: If OAuth is not configured, Claude/GPT models automatically fall back to GLM models (priority 2). Once OAuth is authenticated, requests will use the primary models (priority 1).
 
 ## Model Configuration
 
@@ -188,20 +201,26 @@ priority = 1
 
 ### Failover Configuration
 
+All OAuth models are configured with automatic failover to GLM models:
+
 ```toml
 [[models]]
-name = "reliable-model"
+name = "claude-sonnet-4.5"
 
+# Priority 1: OAuth provider (requires authentication)
 [[models.mappings]]
-provider = "primary-provider"
-actual_model = "model-id"
+actual_model = "claude-sonnet-4-5-20250929"
 priority = 1
+provider = "claude-max-main"
 
+# Priority 2: Fallback to GLM if OAuth fails
 [[models.mappings]]
-provider = "backup-provider"
-actual_model = "model-id"
+actual_model = "glm-4.6"
 priority = 2
+provider = "zai-coding-plan"
 ```
+
+**How it works:** The proxy tries providers in priority order. If OAuth authentication fails (priority 1), it automatically falls back to the GLM provider (priority 2).
 
 ## Docker Commands
 
