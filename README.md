@@ -21,12 +21,41 @@ See the [official repository](https://github.com/9j/claude-code-mux) for complet
 git clone https://github.com/shekohex/ccm-docker
 cd ccm-docker
 
+# Copy and configure environment variables
+cp .env.example .env
+# Edit .env with your API keys
+
+# Start the service
 docker compose up -d
 
+# View logs
 docker compose logs -f
 ```
 
 Access the admin UI at: http://localhost:13456
+
+### Environment Variables
+
+Create a `.env` file from the example:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` and add your API keys:
+
+```bash
+# Required for GLM models (glm-4.6, glm-4.5-air, glm-4.5v)
+ZAI_API_KEY=your-zai-api-key-here
+
+# Required for MiniMax-M2 model
+MINIMAX_API_KEY=your-minimax-api-key-here
+
+# Required for kimi-k2-thinking model
+KIMI_API_KEY=your-kimi-api-key-here
+```
+
+**OAuth providers** (Anthropic, OpenAI, Gemini) are configured via the web UI at http://localhost:13456 - no environment variables needed.
 
 ## Configuration
 
@@ -42,40 +71,18 @@ Access the admin UI at: http://localhost:13456
 
 ### Editing Configuration
 
-Edit `./config/config.toml` on your host machine:
+Edit `./config/config.toml` on your host machine. The default config includes:
 
-```toml
-[server]
-host = "127.0.0.1"
-port = 13456
-log_level = "info"
-
-[router]
-default = "my-model"
-think = "reasoning-model"
-websearch = "search-model"
-background = "fast-model"
-
-[[providers]]
-name = "openrouter"
-provider_type = "openrouter"
-enabled = true
-api_key = "sk-or-v1-..."
-models = []
-
-[[models]]
-name = "my-model"
-
-[[models.mappings]]
-provider = "openrouter"
-actual_model = "anthropic/claude-sonnet-4.5"
-priority = 1
-```
+- **6 Providers**: Anthropic (OAuth), OpenAI (OAuth), Gemini (OAuth), Z.AI (API key), Minimax (API key), Kimi (API key)
+- **16 Models**: Claude Opus/Sonnet/Haiku, GPT-5.1 variants, Gemini 2.5/3, GLM models, MiniMax M2, Kimi K2
+- **Smart Routing**: Automatically routes to best model based on task type
 
 Restart after config changes:
 ```bash
 docker compose restart
 ```
+
+See [Available Models](#available-models) and [Router Configuration](#router-configuration) sections for details.
 
 ## Provider Configuration
 
@@ -94,23 +101,76 @@ models = []
 ```
 
 **Supported provider types:**
-- `anthropic` - Anthropic API
-- `openai` - OpenAI API
+- `anthropic` - Anthropic API (supports OAuth)
+- `openai` - OpenAI API (supports OAuth)
+- `gemini` - Google Gemini (supports OAuth and API key)
+- `z.ai` - Z.AI (API key for GLM models)
+- `minimax` - Minimax (API key)
+- `kimi-coding` - Kimi/Moonshot (API key)
 - `openrouter` - OpenRouter
 - `groq` - Groq
-- `z.ai` - z.ai
 - `zenmux` - ZenMux
-- `minimax` - Minimax
-- `kimi` - Kimi
-- `gemini` - Google Gemini
 - `vertex-ai` - Google Vertex AI
 
 ### OAuth Configuration
 
-OAuth tokens are stored in `/data/oauth_tokens.json`. Use the web UI at http://localhost:13456 to set up OAuth authentication for:
-- Claude Pro/Max (free API access)
-- ChatGPT Plus/Pro (free API access)
-- Google AI Pro/Ultra (free API access)
+OAuth tokens are stored in the `ccm-data` volume at `/home/ccm/.claude-code-mux/oauth_tokens.json`.
+
+Use the web UI at http://localhost:13456 to set up OAuth authentication for:
+- **Anthropic Claude Pro/Max** - Free API access to Claude models
+- **OpenAI ChatGPT Plus/Pro/Codex** - Free API access to GPT-5.1 models
+- **Google Gemini AI Pro/Ultra** - Free API access to Gemini 2.5 & 3 models
+
+OAuth setup is done entirely through the web UI - no environment variables or API keys needed.
+
+## Available Models
+
+The default configuration includes the following models:
+
+### Anthropic Claude Models (OAuth)
+- **claude-opus-4.1** - Most powerful reasoning (uses `think` routing)
+- **claude-sonnet-4.5** - Balanced performance (default routing)
+- **claude-haiku-4.5** - Fast responses
+- **claude-sonnet-3.7** - Alternative Sonnet version
+
+### OpenAI GPT Models (OAuth)
+- **gpt-5.1** - Latest flagship model (uses `websearch` routing)
+- **gpt-5.1-chat-latest** - Chat-optimized variant
+- **gpt-5.1-codex-mini** - Lightweight coding model
+
+### Google Gemini Models (OAuth)
+- **gemini-2.5-pro** - Most capable Gemini model
+- **gemini-2.5-flash** - Fast responses
+- **gemini-3-pro-preview** - Preview of Gemini 3
+
+### ZhipuAI/GLM Models (API Key via Z.AI)
+- **glm-4.6** - Latest GLM model
+- **glm-4.5-air** - Lightweight, fast (uses `background` routing)
+- **glm-4.5v** - Vision-capable variant
+
+### Minimax Models (API Key)
+- **minimax-m2** - MiniMax M2 model
+
+### Kimi/Moonshot Models (API Key)
+- **kimi-k2-thinking** - Reasoning-capable model
+
+## Router Configuration
+
+The router automatically selects models based on task type:
+
+```toml
+[router]
+default = "claude-sonnet-4.5"      # General tasks
+think = "claude-opus-4.1"          # Complex reasoning
+websearch = "gpt-5.1"              # Web search tasks
+background = "glm-4.5-air"         # Fast background tasks
+```
+
+**Task Routing:**
+- **default** - All standard requests
+- **think** - Requests with extended thinking enabled
+- **websearch** - Requests using web search tools
+- **background** - Fast, simple tasks (configurable via regex)
 
 ## Model Configuration
 
@@ -142,22 +202,6 @@ provider = "backup-provider"
 actual_model = "model-id"
 priority = 2
 ```
-
-## Routing Configuration
-
-```toml
-[router]
-default = "model-for-general-tasks"
-think = "model-for-reasoning"
-websearch = "model-for-web-search"
-background = "model-for-simple-tasks"
-```
-
-**Routing logic:**
-- **WebSearch**: Requests with `web_search` tool
-- **Think**: Requests with `thinking` field enabled
-- **Background**: Background tasks (configurable regex)
-- **Default**: All other requests
 
 ## Docker Commands
 
