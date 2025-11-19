@@ -1,0 +1,14 @@
+.git
+.gitignore
+README.md
+compose.yml
+docker-compose.yml
+.env
+.env.*
+*.log
+*.pid
+config/*.log
+config/*.pid
+config/oauth_tokens.json
+.DS_Store
+Thumbs.db

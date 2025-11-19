@@ -1,0 +1,22 @@
+services:
+  ccm:
+    build: .
+    container_name: claude-code-mux
+    ports:
+      - "13456:13456"
+    volumes:
+      - ./config:/config
+      - ccm-data:/data
+    environment:
+      - CCM_CONFIG_DIR=/config
+      - CCM_DATA_DIR=/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:13456/api/config/json"]
+      interval: 30s
+      timeout: 3s
+      start_period: 5s
+      retries: 3
+
+volumes:
+  ccm-data:

@@ -1,0 +1,32 @@
+# Claude Code Mux Configuration
+# https://github.com/9j/claude-code-mux
+
+[server]
+host = "127.0.0.1"
+port = 13456
+log_level = "info"
+
+[server.timeouts]
+api_timeout_ms = 600000
+connect_timeout_ms = 10000
+
+[router]
+default = "example-model"
+think = "example-model"
+websearch = "example-model"
+background = "example-model"
+
+[[providers]]
+name = "example-provider"
+provider_type = "openrouter"
+enabled = true
+api_key = "your-api-key-here"
+models = []
+
+[[models]]
+name = "example-model"
+
+[[models.mappings]]
+provider = "example-provider"
+actual_model = "openai/gpt-4"
+priority = 1
