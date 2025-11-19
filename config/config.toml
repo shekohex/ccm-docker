@@ -14,9 +14,9 @@ connect_timeout_ms = 10000
 # OAuth models with automatic fallback to API key models
 # Authenticate OAuth at http://localhost:13456 for full functionality
 default = "claude-sonnet-4.5"
-think = "claude-opus-4.1"
-websearch = "gpt-5.1"
-background = "glm-4.5-air"
+think = "gpt-5.1"
+websearch = "claude-haiku-4.5"
+background = "claude-sonnet-4.5"
 
 # ===== Providers =====
 
