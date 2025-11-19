@@ -152,6 +152,19 @@ priority = 2
 provider = "zai-coding-plan"
 
 [[models]]
+name = "gpt-5.1-codex"
+
+[[models.mappings]]
+actual_model = "gpt-5.1-codex"
+priority = 1
+provider = "openai-codex"
+
+[[models.mappings]]
+actual_model = "glm-4.6"
+priority = 2
+provider = "zai-coding-plan"
+
+[[models]]
 name = "gpt-5.1-codex-mini"
 
 [[models.mappings]]
@@ -164,9 +177,141 @@ actual_model = "glm-4.5-air"
 priority = 2
 provider = "zai-coding-plan"
 
+[[models]]
+name = "gpt-5.1-low"
+
+[[models.mappings]]
+actual_model = "gpt-5.1-low"
+priority = 1
+provider = "openai-codex"
+
+[[models.mappings]]
+actual_model = "glm-4.6"
+priority = 2
+provider = "zai-coding-plan"
+
+[[models]]
+name = "gpt-5.1-medium"
+
+[[models.mappings]]
+actual_model = "gpt-5.1-medium"
+priority = 1
+provider = "openai-codex"
+
+[[models.mappings]]
+actual_model = "glm-4.6"
+priority = 2
+provider = "zai-coding-plan"
+
+[[models]]
+name = "gpt-5.1-high"
+
+[[models.mappings]]
+actual_model = "gpt-5.1-high"
+priority = 1
+provider = "openai-codex"
+
+[[models.mappings]]
+actual_model = "glm-4.6"
+priority = 2
+provider = "zai-coding-plan"
+
+[[models]]
+name = "gpt-5.1-codex-low"
+
+[[models.mappings]]
+actual_model = "gpt-5.1-codex-low"
+priority = 1
+provider = "openai-codex"
+
+[[models.mappings]]
+actual_model = "glm-4.6"
+priority = 2
+provider = "zai-coding-plan"
+
+[[models]]
+name = "gpt-5.1-codex-medium"
+
+[[models.mappings]]
+actual_model = "gpt-5.1-codex-medium"
+priority = 1
+provider = "openai-codex"
+
+[[models.mappings]]
+actual_model = "glm-4.6"
+priority = 2
+provider = "zai-coding-plan"
+
+[[models]]
+name = "gpt-5.1-codex-high"
+
+[[models.mappings]]
+actual_model = "gpt-5.1-codex-high"
+priority = 1
+provider = "openai-codex"
+
+[[models.mappings]]
+actual_model = "glm-4.6"
+priority = 2
+provider = "zai-coding-plan"
+
+[[models]]
+name = "gpt-5.1-codex-mini-medium"
+
+[[models.mappings]]
+actual_model = "gpt-5.1-codex-mini-medium"
+priority = 1
+provider = "openai-codex"
+
+[[models.mappings]]
+actual_model = "glm-4.5-air"
+priority = 2
+provider = "zai-coding-plan"
+
+[[models]]
+name = "gpt-5.1-codex-mini-high"
+
+[[models.mappings]]
+actual_model = "gpt-5.1-codex-mini-high"
+priority = 1
+provider = "openai-codex"
+
+[[models.mappings]]
+actual_model = "glm-4.5-air"
+priority = 2
+provider = "zai-coding-plan"
+
 # ===== Google Gemini Models =====
 # Note: Requires OAuth authentication at http://localhost:13456
-# Fallback to GLM models if OAuth not configured
+# Multi-tier fallback chain: Gemini 3 → Gemini 2.5 → Gemini 2.0 → GLM
+
+[[models]]
+name = "gemini-3-pro-preview"
+
+[[models.mappings]]
+actual_model = "gemini-3-pro-preview"
+priority = 1
+provider = "gemini-oauth"
+
+[[models.mappings]]
+actual_model = "gemini-2.5-pro"
+priority = 2
+provider = "gemini-oauth"
+
+[[models.mappings]]
+actual_model = "gemini-2.5-flash"
+priority = 3
+provider = "gemini-oauth"
+
+[[models.mappings]]
+actual_model = "gemini-2.0-flash"
+priority = 4
+provider = "gemini-oauth"
+
+[[models.mappings]]
+actual_model = "glm-4.6"
+priority = 5
+provider = "zai-coding-plan"
 
 [[models]]
 name = "gemini-2.5-pro"
@@ -177,8 +322,18 @@ priority = 1
 provider = "gemini-oauth"
 
 [[models.mappings]]
-actual_model = "glm-4.6"
+actual_model = "gemini-2.5-flash"
 priority = 2
+provider = "gemini-oauth"
+
+[[models.mappings]]
+actual_model = "gemini-2.0-flash"
+priority = 3
+provider = "gemini-oauth"
+
+[[models.mappings]]
+actual_model = "glm-4.6"
+priority = 4
 provider = "zai-coding-plan"
 
 [[models]]
@@ -190,20 +345,56 @@ priority = 1
 provider = "gemini-oauth"
 
 [[models.mappings]]
+actual_model = "gemini-2.0-flash"
+priority = 2
+provider = "gemini-oauth"
+
+[[models.mappings]]
+actual_model = "glm-4.5-air"
+priority = 3
+provider = "zai-coding-plan"
+
+[[models]]
+name = "gemini-2.0-flash"
+
+[[models.mappings]]
+actual_model = "gemini-2.0-flash"
+priority = 1
+provider = "gemini-oauth"
+
+[[models.mappings]]
 actual_model = "glm-4.5-air"
 priority = 2
 provider = "zai-coding-plan"
 
 [[models]]
-name = "gemini-3-pro-preview"
+name = "gemini-1.5-pro"
 
 [[models.mappings]]
-actual_model = "gemini-3-pro-preview"
+actual_model = "gemini-1.5-pro"
 priority = 1
 provider = "gemini-oauth"
 
 [[models.mappings]]
+actual_model = "gemini-1.5-flash"
+priority = 2
+provider = "gemini-oauth"
+
+[[models.mappings]]
 actual_model = "glm-4.6"
+priority = 3
+provider = "zai-coding-plan"
+
+[[models]]
+name = "gemini-1.5-flash"
+
+[[models.mappings]]
+actual_model = "gemini-1.5-flash"
+priority = 1
+provider = "gemini-oauth"
+
+[[models.mappings]]
+actual_model = "glm-4.5-air"
 priority = 2
 provider = "zai-coding-plan"
 
