@@ -18,7 +18,7 @@ See the [official repository](https://github.com/9j/claude-code-mux) for complet
 ## Quick Start
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ccm-docker
+git clone https://github.com/shekohex/ccm-docker
 cd ccm-docker
 
 docker compose up -d
@@ -287,7 +287,7 @@ Features:
 - [Report Issues](https://github.com/9j/claude-code-mux/issues)
 
 **This Docker Wrapper:**
-- Docker-specific issues: [Create Issue](https://github.com/YOUR_USERNAME/ccm-docker/issues)
+- Docker-specific issues: [Create Issue](https://github.com/shekohex/ccm-docker/issues)
 
 ## License
 
